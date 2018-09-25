@@ -4,49 +4,52 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Example implements Serializable {
-   private String subType;
-    private boolean       timeBased;
-    private boolean      dataDriven;
-    private Integer     versionNumber;
-    private List<String> steps;
 
-    public String getSubType() {
-        return subType;
-    }
+	private static final long serialVersionUID = 1L;
 
-    public void setSubType(String subType) {
-        this.subType = subType;
-    }
+	private String subType;
+	private boolean timeBased;
+	private boolean dataDriven;
+	private Integer versionNumber;
+	private List<String> steps;
 
-    public boolean isTimeBased() {
-        return timeBased;
-    }
+	public String getSubType() {
+		return subType;
+	}
 
-    public void setTimeBased(boolean timeBased) {
-        this.timeBased = timeBased;
-    }
+	public void setSubType(String subType) {
+		this.subType = subType;
+	}
 
-    public boolean isDataDriven() {
-        return dataDriven;
-    }
+	public boolean isTimeBased() {
+		return timeBased;
+	}
 
-    public void setDataDriven(boolean dataDriven) {
-        this.dataDriven = dataDriven;
-    }
+	public void setTimeBased(boolean timeBased) {
+		this.timeBased = timeBased;
+	}
 
-    public Integer getVersionNumber() {
-        return versionNumber;
-    }
+	public boolean isDataDriven() {
+		return dataDriven;
+	}
 
-    public void setVersionNumber(Integer versionNumber) {
-        this.versionNumber = versionNumber;
-    }
+	public void setDataDriven(boolean dataDriven) {
+		this.dataDriven = dataDriven;
+	}
 
-    public List<String> getSteps() {
-        return steps;
-    }
+	public Integer getVersionNumber() {
+		return versionNumber;
+	}
 
-    public void setSteps(List<String> steps) {
-        this.steps = steps;
-    }
+	public void setVersionNumber(Integer versionNumber) {
+		this.versionNumber = versionNumber;
+	}
+
+	public List<String> getSteps() {
+		return steps;
+	}
+
+	public void setSteps(List<String> steps) {
+		this.steps = steps;
+	}
 }
