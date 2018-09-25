@@ -1,0 +1,71 @@
+{
+  "subType": "Regression Test",
+  "timeBased": false,
+  "dataDriven": false,
+  "versionNumber": 2,
+  "steps": [
+    {
+      "type": "tswitch",
+      "channel": "B2O",
+      "profile": "officer"
+    },
+    {
+      "type": "tsetup",
+      "scenario": "Gtype = 97;",
+      "campaign": ""
+    },
+    {
+      "type": "tsql",
+      "name": "",
+      "description": "",
+      "script": "arg=select count(ARGTBL) from zz450 where ARGTBL=@{var=Gtype};"
+    },
+    {
+      "type": "if",
+      "name": "My Statement",
+      "condition": "@{var=arg} == 0",
+      "groupingSteps": [
+        {
+          "type": "cbs",
+          "name": "Create_Argument",
+          "webTransaction": "PTOC01"
+        }
+      ]
+    },
+    {
+      "type": "cbs",
+      "name": "List_Proposed_Eligibility_Codes",
+      "webTransaction": "BARL03"
+    },
+    {
+      "type": "cbs",
+      "name": "Validate_Proposed_Eligibility_Code",
+      "webTransaction": "BARS03"
+    },
+    {
+      "type": "cbs",
+      "name": "List_Proposed_Eligibility_Codes1",
+      "webTransaction": "BARL03"
+    },
+    {
+      "type": "cbs",
+      "name": "Update_Proposed_Eligibility_Code",
+      "webTransaction": "BARU03"
+    },
+    {
+      "type": "cbs",
+      "name": "List_Proposed_Eligibility_Codes2",
+      "webTransaction": "BARL03"
+    },
+    {
+      "type": "cbs",
+      "name": "Delete_Argument",
+      "webTransaction": "PTOD01"
+    },
+    {
+      "type": "cbs",
+      "name": "List_Proposed_Eligibility_Codes3",
+      "webTransaction": "BARL03"
+    }
+  ]
+}

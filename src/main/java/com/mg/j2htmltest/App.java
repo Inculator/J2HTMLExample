@@ -1,22 +1,17 @@
 package com.mg.j2htmltest;
 
-import static j2html.TagCreator.body;
-import static j2html.TagCreator.each;
-import static j2html.TagCreator.form;
-import static j2html.TagCreator.h1;
-import static j2html.TagCreator.html;
-import static j2html.TagCreator.input;
-import static j2html.TagCreator.li;
-import static j2html.TagCreator.ul;
-import static java.util.Arrays.asList;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
+
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+import static j2html.TagCreator.*;
+import static java.util.Arrays.asList;
 
 /**
  * Hello world!
@@ -24,19 +19,22 @@ import j2html.tags.Tag;
  */
 public class App {
 	public static void main(String[] args) {
-		File file = new File("C:\\Users\\akanksha\\Desktop\\ABC.html");
+		File file = new File("d:\\Profiles\\mogupta\\Desktop\\ABC.html");
 		try {
+		    new App().readTestFile();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(ul(each(asList(1, 2, 3), i -> li("Number " + i))).renderFormatted());
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(generateHTML());
 
 	}
 
-	private static String generateHTML() {
+	}
+
+    private static String generateHTML() {
+
 		return html(generateBody()).renderFormatted();
 	}
 
