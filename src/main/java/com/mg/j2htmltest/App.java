@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +34,21 @@ public class App {
 
 	}
 
-	}
+    private void readTestFile(){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Map<String, Object> itemMap = new HashMap<>();
+            itemMap = objectMapper.readValue(new File(Paths.get("src/main/resources/file/_AC_Proposed_Eligibility_Code_Out_Of_Bank_Guarantee.tscenario").toUri()), new TypeReference<Map<String, Example>>() {});
+            System.out.println("SIZE ---"+ itemMap.size());
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+}
+
+    private ClassLoader getClassLoader() {
+        return getClass().getClassLoader();
+    }
 
     private static String generateHTML() {
 
