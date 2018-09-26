@@ -23,6 +23,7 @@ public class App {
 		try {
 			Example exp = new App().readTestFile();
             createHtml(file, exp);
+
         } catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -30,8 +31,33 @@ public class App {
 	}
 
     private static void createHtml(File file, Example exp) throws IOException {
+
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(ul(each(exp.getSteps(), step -> createDivForEachStep(step))).renderFormatted());
+
+        writer.write(html(
+                head(
+                        title("Title"),
+                        link().withRel("stylesheet").withHref("/css/main.css")
+                ),
+                script("$('#container').jstree({\n" +
+                        "    'core' : {\n" +
+                        "      'data' : [\n" +
+                        "          { \n" +
+                        "              \"text\" : \"Root node\", \n" +
+                        "              \"state\" : {\"opened\" : true }, \n" +
+                        "              \"children\" : [\n" +
+                        "                  { \"text\" : \"Child node 1\", \"state\" : { \"selected\" : true }, \"icon\" : \"glyphicon glyphicon-flash\" },\n" +
+                        "                  { \"text\" : \"Child node 2\", \"state\" : { \"disabled\" : true } }\n" +
+                        "              ]\n" +
+                        "        }\n" +
+                        "      ]\n" +
+                        "    }\n" +
+                        "  });"),
+                body(
+                        h5("T-tool Scenario HTML"),
+                        ul(each(exp.getSteps(), step -> createDivForEachStep(step)))
+                )
+        ).renderFormatted());
         writer.close();
     }
 
