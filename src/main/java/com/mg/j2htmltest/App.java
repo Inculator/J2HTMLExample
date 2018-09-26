@@ -1,13 +1,9 @@
 package com.mg.j2htmltest;
 
-import static j2html.TagCreator.body;
-import static j2html.TagCreator.each;
-import static j2html.TagCreator.form;
-import static j2html.TagCreator.h1;
-import static j2html.TagCreator.html;
-import static j2html.TagCreator.input;
-import static j2html.TagCreator.li;
-import static j2html.TagCreator.ul;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import j2html.tags.ContainerTag;
+import j2html.tags.Tag;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,32 +13,42 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static j2html.TagCreator.*;
 
-import j2html.tags.ContainerTag;
-import j2html.tags.Tag;
-
-/**
- * Hello world!
- *
- */
 public class App {
+
 	public static void main(String[] args) {
-		// File file = new File("d:\\Profiles\\mogupta\\Desktop\\ABC.html");
-		File file = new File("C:\\Users\\akanksha\\Desktop\\ABC.html");
+		 File file = new File("d:\\Profiles\\mogupta\\Desktop\\ABC.html");
+//		File file = new File("C:\\Users\\akanksha\\Desktop\\ABC.html");
 		try {
 			Example exp = new App().readTestFile();
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-			writer.write(ul(each(exp.getSteps(), step -> li(step.toString()))).renderFormatted());
-			writer.close();
-		} catch (IOException e) {
+            createHtml(file, exp);
+        } catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	private Example readTestFile() {
+    private static void createHtml(File file, Example exp) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(ul(each(exp.getSteps(), step -> createDivForEachStep(step))).renderFormatted());
+        writer.close();
+    }
+
+    private static ContainerTag createDivForEachStep(String step) {
+	    String basePath = "D:\\Profiles\\mogupta\\Desktop\\Trainings\\Java FX\\J2HTMLExample\\src\\main\\resources\\images\\";
+	    String src = basePath+ "task.png";
+	    if(step.equalsIgnoreCase("if"))
+	        src = basePath + "If.png";
+        if(step.equalsIgnoreCase("tsetup"))
+            src = basePath + "Setup.png";
+        if(step.equalsIgnoreCase("tswitch"))
+            src = basePath + "switch.png";
+        return b(div(img().withSrc(src), text(step.toString())));
+        //https://github.com/tipsy/j2html/blob/master/src/test/java/j2html/tags/TagCreatorTest.java
+    }
+
+    private Example readTestFile() {
 		// https://www.mkyong.com/java/jackson-tree-model-example/
 		ObjectMapper objectMapper = new ObjectMapper();
 		Example exp = new Example();
