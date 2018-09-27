@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import j2html.tags.ContainerTag;
 import j2html.tags.Tag;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import static j2html.TagCreator.*;
 public class App {
 
 	public static void main(String[] args) {
-		 File file = new File("d:\\Profiles\\mogupta\\Desktop\\ABC.html");
+		 File file = new File("d:\\Profiles\\mogupta\\Desktop\\HTML\\ABC.html");
 //		File file = new File("C:\\Users\\akanksha\\Desktop\\ABC.html");
 		try {
 			Example exp = new App().readTestFile();
@@ -32,45 +31,35 @@ public class App {
 
     private static void createHtml(File file, Example exp) throws IOException {
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-
+	   //        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
+        FileWriter writer = new FileWriter(file);
         writer.write(html(
-                head(
-                        title("Title"),
-                        link().withRel("stylesheet").withHref("/css/main.css")
-                ),
-                script("$('#container').jstree({\n" +
-                        "    'core' : {\n" +
-                        "      'data' : [\n" +
-                        "          { \n" +
-                        "              \"text\" : \"Root node\", \n" +
-                        "              \"state\" : {\"opened\" : true }, \n" +
-                        "              \"children\" : [\n" +
-                        "                  { \"text\" : \"Child node 1\", \"state\" : { \"selected\" : true }, \"icon\" : \"glyphicon glyphicon-flash\" },\n" +
-                        "                  { \"text\" : \"Child node 2\", \"state\" : { \"disabled\" : true } }\n" +
-                        "              ]\n" +
-                        "        }\n" +
-                        "      ]\n" +
-                        "    }\n" +
-                        "  });"),
-                body(
-                        h5("T-tool Scenario HTML"),
-                        ul(each(exp.getSteps(), step -> createDivForEachStep(step)))
-                )
+                        head().with(
+                                meta().withCharset("utf-8"),
+                                title("Title"),
+                                link().withRel("stylesheet").withHref("dist/themes/default/style.min.css"),
+                                script().withSrc("dist/libs/jquery_3.1.1.js"), // this is the path where the HTML file is created.
+                                script().withSrc("dist/jstree.min.js"), // this is the path where the HTML file is created.
+                                script().withSrc("dist/jsJquery.js") // this is the path where the HTML file is created.
+                        ),
+                        body(
+                                h5("T-tool Scenario HTML"),
+                                div(ul(each(exp.getSteps(), step -> createDivForEachStep(step)))).withId("jstree")
+                        )
         ).renderFormatted());
         writer.close();
     }
 
     private static ContainerTag createDivForEachStep(String step) {
-	    String basePath = "D:\\Profiles\\mogupta\\Desktop\\Trainings\\Java FX\\J2HTMLExample\\src\\main\\resources\\images\\";
-	    String src = basePath+ "task.png";
-	    if(step.equalsIgnoreCase("if"))
-	        src = basePath + "If.png";
-        if(step.equalsIgnoreCase("tsetup"))
-            src = basePath + "Setup.png";
-        if(step.equalsIgnoreCase("tswitch"))
-            src = basePath + "switch.png";
-        return b(div(img().withSrc(src), text(step.toString())));
+//	    String basePath = "D:\\Profiles\\mogupta\\Desktop\\Trainings\\Java FX\\J2HTMLExample\\src\\main\\resources\\images\\";
+//	    String src = basePath+ "task.png";
+//	    if(step.equalsIgnoreCase("if"))
+//	        src = basePath + "If.png";
+//        if(step.equalsIgnoreCase("tsetup"))
+//            src = basePath + "Setup.png";
+//        if(step.equalsIgnoreCase("tswitch"))
+//            src = basePath + "switch.png";
+        return li(step.toString());
         //https://github.com/tipsy/j2html/blob/master/src/test/java/j2html/tags/TagCreatorTest.java
     }
 
